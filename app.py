@@ -51,13 +51,24 @@ with left:
     st.subheader("1. Paste a suspicious message")
     sample = "Subject: Urgent — mailbox access will be suspended\n\nHello,\n\nYour account will be disabled today. Verify your password immediately at http://example.invalid/account to prevent suspension.\n\nIT Support"
     message = st.text_area("Email, SMS, chat message, or payment request", height=290, placeholder="Paste the message text here…", max_chars=MAX_MESSAGE_CHARS, label_visibility="collapsed", key="message_input")
+   
+    def load_sample_message():
+        st.session_state["message_input"] = sample
+
     c1, c2 = st.columns(2)
     with c1:
-        if st.button("Load sample message", use_container_width=True):
-            st.session_state["message_input"] = sample
-            st.rerun()
+        st.button(
+            "Load sample message",
+            use_container_width=True,
+            on_click=load_sample_message,
+        )
     with c2:
-        run_analysis = st.button("Analyze message →", type="primary", use_container_width=True)
+        run_analysis = st.button(
+            "Analyze message →",
+            type="primary",
+            use_container_width=True,
+        )
+
     st.caption(f"{len(message):,} / {MAX_MESSAGE_CHARS:,} characters · Avoid pasting sensitive personal or customer data into demos.")
 with right:
     st.subheader("What you'll get")
